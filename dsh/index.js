@@ -282,7 +282,7 @@ const INJECT_SCRIPT = `(function () {
     var s = document.createElement('style');
     s.id = 'dsh-optimizer-style';
     s.textContent = [
-      '#dsh-optimizer-bar{position:fixed;top:34px;left:50%;transform:translateX(-50%);z-index:2147483000;display:inline-flex;gap:6px;-webkit-app-region:no-drag}',
+      '#dsh-optimizer-bar{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:2147483000;display:inline-flex;gap:6px;-webkit-app-region:no-drag}',
       '#dsh-optimizer-bar button{height:26px;padding:0 12px;border-radius:6px;border:1px solid rgba(255,122,26,.30);background:#fffdf5;color:#332b1f;font:600 12px/1 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;cursor:pointer;box-shadow:0 1px 2px rgba(88,70,45,.14)}',
       '#dsh-optimizer-bar button:hover{background:#fff4cc}',
       'html[data-dsh-mini] #dsh-optimizer-bar{display:none!important}',
