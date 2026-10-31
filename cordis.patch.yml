@@ -1,0 +1,4 @@
+# dsh-optimizer bundle layer
+- insert:
+    - id: optimizer
+      name: dsh-optimizer
