@@ -1,37 +1,37 @@
-﻿{
-    "name":  "dsh-optimizer",
-    "version":  "2.7.7",
-    "description":  "DSH desktop plugin: one-click restart, launch window mode and a compact mini surface.",
-    "type":  "module",
-    "main":  "dsh/index.js",
-    "exports":  {
-                    ".":  "./dsh/index.js",
-                    "./package.json":  "./package.json"
-                },
-    "files":  [
-                  "dsh",
-                  "cordis.patch.yml",
-                  "README.md"
-              ],
-    "license":  "MIT",
-    "dsh":  {
-                "bundle":  {
-                               "patch":  "./cordis.patch.yml"
-                           }
-            },
-    "keywords":  [
-                     "dsh",
-                     "dsh-plugin",
-                     "deepseek-harness",
-                     "restart",
-                     "window"
-                 ],
-    "repository":  {
-                       "type":  "git",
-                       "url":  "https://github.com/shAk3-mecha/dsh-optimizer.git"
-                   },
-    "homepage":  "https://github.com/shAk3-mecha/dsh-optimizer",
-    "bugs":  {
-                 "url":  "https://github.com/shAk3-mecha/dsh-optimizer/issues"
-             }
+{
+  "name": "dsh-optimizer",
+  "version": "2.7.8",
+  "description": "DSH desktop plugin: one-click restart, launch window mode and a compact mini surface.",
+  "type": "module",
+  "main": "dsh/index.js",
+  "exports": {
+    ".": "./dsh/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dsh",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "restart",
+    "window"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shAk3-mecha/dsh-optimizer.git"
+  },
+  "homepage": "https://github.com/shAk3-mecha/dsh-optimizer",
+  "bugs": {
+    "url": "https://github.com/shAk3-mecha/dsh-optimizer/issues"
+  }
 }
