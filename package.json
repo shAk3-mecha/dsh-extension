@@ -1,0 +1,29 @@
+{
+  "name": "dsh-optimizer",
+  "version": "2.7.7",
+  "description": "DSH Optimizer: one-click restart plus a launch-window switch (maximized or small) for DeepSeek Harness Desktop.",
+  "type": "module",
+  "main": "dsh/index.js",
+  "exports": {
+    ".": "./dsh/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dsh",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "restart",
+    "window"
+  ]
+}
