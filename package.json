@@ -1,6 +1,6 @@
 {
   "name": "dsh-optimizer",
-  "version": "2.7.8",
+  "version": "2.8.2",
   "description": "DSH desktop plugin: one-click restart, launch window mode and a compact mini surface.",
   "type": "module",
   "main": "dsh/index.js",
