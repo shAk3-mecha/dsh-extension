@@ -1,4 +1,4 @@
-# dsh-optimizer
+# dsh-extension
 
 DeepSeek Harness（DSH）桌面端的一个小插件，把三件常用事收进顶部一排按钮：
 
@@ -18,7 +18,7 @@ DeepSeek Harness（DSH）桌面端的一个小插件，把三件常用事收进�
 
 ### 窗口模式
 
-按钮显示「下次打开：全屏 / 小窗口」。设置保存到 `$DSH_HOME/dsh-optimizer/config.json`，下次启动时由窗口守护脚本应用：
+按钮显示「下次打开：全屏 / 小窗口」。设置保存到 `$DSH_HOME/dsh-extension/config.json`，下次启动时由窗口守护脚本应用：
 
 - `maximized`：最大化；
 - `normal`：还原为默认窗口大小。
@@ -44,17 +44,17 @@ dsh plugin --profile desktop add <本仓库目录或 tgz>
 
 | 路径 | 说明 |
 | --- | --- |
-| `$DSH_HOME/dsh-optimizer/config.json` | `{"mode":"maximized"}` 或 `{"mode":"normal"}` |
-| `$DSH_HOME/dsh-optimizer/optimizer.log` | 运行日志（窗口、重启、注入） |
+| `$DSH_HOME/dsh-extension/config.json` | `{"mode":"maximized"}` 或 `{"mode":"normal"}` |
+| `$DSH_HOME/dsh-extension/extension.log` | 运行日志（窗口、重启、注入） |
 
 ## 卸载
 
 ```sh
-dsh plugin --profile desktop remove dsh-optimizer
+dsh plugin --profile desktop remove dsh-extension
 ```
 
-再删除 `$DSH_HOME/dsh-optimizer` 目录；计划任务 `DSH-Optimizer-Watcher` 可用
-`schtasks /Delete /TN DSH-Optimizer-Watcher /F` 清理。
+再删除 `$DSH_HOME/dsh-extension` 目录；计划任务 `DSH-Extension-Watcher` 可用
+`schtasks /Delete /TN DSH-Extension-Watcher /F` 清理。
 
 ## 说明
 
