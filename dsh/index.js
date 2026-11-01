@@ -1,5 +1,5 @@
 /**
- * dsh-optimizer — host half.
+ * dsh-extension — host half.
  *
  * Two desktop conveniences in one plugin:
  *   1. One-click restart: arms a one-shot Windows scheduled task that stops the
@@ -21,17 +21,17 @@ import { registerMini } from './mini.js'
 export const name = 'optimizer'
 export const inject = ['webServer', 'connection']
 
-const ROUTE_STATE = '/plugins/dsh-optimizer/state'
-const ROUTE_MODE = '/plugins/dsh-optimizer/mode'
-const ROUTE_RESTART = '/plugins/dsh-optimizer/restart'
+const ROUTE_STATE = '/plugins/dsh-extension/state'
+const ROUTE_MODE = '/plugins/dsh-extension/mode'
+const ROUTE_RESTART = '/plugins/dsh-extension/restart'
 const DSH_HOME = process.env.DSH_HOME ?? join(homedir(), '.dsh')
-const HOME = join(DSH_HOME, 'dsh-optimizer')
+const HOME = join(DSH_HOME, 'dsh-extension')
 const CONFIG = join(HOME, 'config.json')
 const WATCHER = join(HOME, 'window-watcher.ps1')
 const WATCHER_VBS = join(HOME, 'window-watcher.vbs')
-const LOG = join(HOME, 'optimizer.log')
-const RESTART_FOLDER = join(tmpdir(), 'dsh-optimizer')
-const TASK = 'DSH-Optimizer-Watcher'
+const LOG = join(HOME, 'extension.log')
+const RESTART_FOLDER = join(tmpdir(), 'dsh-extension')
+const TASK = 'DSH-Extension-Watcher'
 const DEFAULT_CONFIG = { mode: 'maximized' }
 
 const RELAUNCH = String.raw`param(
@@ -70,7 +70,7 @@ schtasks /Delete /TN $Task /F | Out-Null
 Write-Log 'done'`
 
 function watcherScript() {
-  return String.raw`# dsh-optimizer window watcher — launched by the Task Scheduler in the user session.
+  return String.raw`# dsh-extension window watcher — launched by the Task Scheduler in the user session.
 $ErrorActionPreference = 'SilentlyContinue'
 $configPath = '${CONFIG.replace(/'/g, "''")}'
 $logPath = '${LOG.replace(/'/g, "''")}'
@@ -223,7 +223,7 @@ export async function startRelaunch() {
   const exe = process.execPath
   const hostPid = process.pid
   const stamp = `${hostPid}-${Date.now()}`
-  const task = `dsh-optimizer-restart-${stamp}`
+  const task = `dsh-extension-restart-${stamp}`
   const script = join(RESTART_FOLDER, `relaunch-${stamp}.ps1`)
   const wrapper = join(RESTART_FOLDER, `run-${stamp}.vbs`)
   const log = join(RESTART_FOLDER, 'restart.log')
@@ -262,23 +262,23 @@ const INJECT_SCRIPT = `(function () {
   if (window.__dshOptimizerMounted) return;
   window.__dshOptimizerMounted = true;
 
-  var stateUrl = '/plugins/dsh-optimizer/state';
-  var modeUrl = '/plugins/dsh-optimizer/mode';
-  var restartUrl = '/plugins/dsh-optimizer/restart';
-  var miniEnter = '/plugins/dsh-optimizer/mini/enter';
-  var miniExit = '/plugins/dsh-optimizer/mini/exit';
+  var stateUrl = '/plugins/dsh-extension/state';
+  var modeUrl = '/plugins/dsh-extension/mode';
+  var restartUrl = '/plugins/dsh-extension/restart';
+  var miniEnter = '/plugins/dsh-extension/mini/enter';
+  var miniExit = '/plugins/dsh-extension/mini/exit';
   var skinSaved;
   var suppressUntil = 0;
 
   function style() {
-    if (document.getElementById('dsh-optimizer-style')) return;
+    if (document.getElementById('dsh-extension-style')) return;
     var s = document.createElement('style');
-    s.id = 'dsh-optimizer-style';
+    s.id = 'dsh-extension-style';
     s.textContent = [
-      '#dsh-optimizer-bar{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:2147483000;display:inline-flex;gap:6px;-webkit-app-region:no-drag}',
-      '#dsh-optimizer-bar button{height:26px;padding:0 12px;border-radius:6px;border:1px solid rgba(255,122,26,.30);background:#fffdf5;color:#332b1f;font:600 12px/1 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;cursor:pointer;box-shadow:0 1px 2px rgba(88,70,45,.14)}',
-      '#dsh-optimizer-bar button:hover{background:#fff4cc}',
-      'html[data-dsh-mini] #dsh-optimizer-bar{display:none!important}',
+      '#dsh-extension-bar{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:2147483000;display:inline-flex;gap:6px;-webkit-app-region:no-drag}',
+      '#dsh-extension-bar button{height:26px;padding:0 12px;border-radius:6px;border:1px solid rgba(255,122,26,.30);background:#fffdf5;color:#332b1f;font:600 12px/1 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;cursor:pointer;box-shadow:0 1px 2px rgba(88,70,45,.14)}',
+      '#dsh-extension-bar button:hover{background:#fff4cc}',
+      'html[data-dsh-mini] #dsh-extension-bar{display:none!important}',
 
       'html[data-dsh-mini]{background:#fffdf2!important}',
       'html[data-dsh-mini] body{overflow:hidden!important;background:#fffdf2!important;color:#332b1f!important;--dsw-alias-label-primary:#332b1f!important;--dsw-alias-label-secondary:#5d5240!important;--dsw-alias-label-tertiary:#7a6c55!important;--dsw-alias-label-caption:#8a7a61!important;--dsw-alias-bg-base:#fdf8e3!important;--dsw-alias-bg-layer-1:#fffdf5!important;--dsw-alias-bg-layer-2:#fffef9!important;--dsw-alias-bg-layer-3:#fff4cc!important;--dsw-alias-border-l1:rgba(255,122,26,.14)!important;--dsw-alias-border-l2:rgba(255,122,26,.22)!important;--dsw-alias-border-l3:rgba(255,122,26,.30)!important;--dsw-alias-border-l4:rgba(255,122,26,.38)!important;--dsw-alias-markdown-code-block:#f3e9d8!important;--dsw-alias-markdown-code-block-banner:#fffdf5!important;--dsw-alias-interactive-bg-hover:rgba(160,107,42,.10)!important;--dsw-specific-input-major:#fffef9!important;--dsw-specific-bubble:#f3e9d8!important;--dsw-specific-menu:#fffef9!important;--dsw-specific-selector:#fff4cc!important}',
@@ -522,9 +522,9 @@ const INJECT_SCRIPT = `(function () {
   }
 
   function mountBar() {
-    if (document.getElementById('dsh-optimizer-bar')) return;
+    if (document.getElementById('dsh-extension-bar')) return;
     var bar = document.createElement('div');
-    bar.id = 'dsh-optimizer-bar';
+    bar.id = 'dsh-extension-bar';
     bar.innerHTML = '<button id="dsh-op-restart" type="button">\\u21bb \\u91cd\\u542f DSH</button>'
       + '<button id="dsh-op-mode" type="button">\\u4e0b\\u6b21\\u6253\\u5f00\\uff1a<span class="mode">\\u5168\\u5c4f</span></button>'
       + '<button id="dsh-op-mini" type="button">\\u6781\\u7b80</button>';
@@ -608,7 +608,7 @@ export function apply(ctx) {
     try {
       if (Array.isArray(table)) { table.push({ kind: 'script', placement: 'body', text: INJECT_SCRIPT }); logLine('inject rows=' + table.length) }
     } catch (error) {
-      ctx.logger?.warn?.('dsh-optimizer: index injection failed: %s', String(error))
+      ctx.logger?.warn?.('dsh-extension: index injection failed: %s', String(error))
     }
   })
 
@@ -619,7 +619,7 @@ export function apply(ctx) {
       if (!ctx.connection.authorizeIndex(req, res)) return
       json(res, 200, { ...capability(), mode: readConfig().mode })
     },
-  }), 'dsh-optimizer: state route')
+  }), 'dsh-extension: state route')
 
   ctx.effect(() => ctx.webServer.register({
     kind: 'exact',
@@ -634,7 +634,7 @@ export function apply(ctx) {
       ensureWatcher().catch(() => {})
       json(res, 200, { ok: true, mode })
     },
-  }), 'dsh-optimizer: mode route')
+  }), 'dsh-extension: mode route')
 
   ctx.effect(() => ctx.webServer.register({
     kind: 'exact',
@@ -657,7 +657,7 @@ export function apply(ctx) {
         }
       })
     },
-  }), 'dsh-optimizer: restart route')
+  }), 'dsh-extension: restart route')
 }
 
 
