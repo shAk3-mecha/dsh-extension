@@ -1,7 +1,7 @@
 {
-  "name": "dsh-optimizer",
-  "version": "2.8.2",
-  "description": "DSH desktop plugin: one-click restart, launch window mode and a compact mini surface.",
+  "name": "dsh-extension",
+  "version": "2.9.0",
+  "description": "DSH desktop extension: one-click restart, launch window mode and a compact mini surface.",
   "type": "module",
   "main": "dsh/index.js",
   "exports": {
@@ -28,10 +28,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/shAk3-mecha/dsh-optimizer.git"
+    "url": "https://github.com/shAk3-mecha/dsh-extension.git"
   },
-  "homepage": "https://github.com/shAk3-mecha/dsh-optimizer",
+  "homepage": "https://github.com/shAk3-mecha/dsh-extension",
   "bugs": {
-    "url": "https://github.com/shAk3-mecha/dsh-optimizer/issues"
+    "url": "https://github.com/shAk3-mecha/dsh-extension/issues"
   }
 }
