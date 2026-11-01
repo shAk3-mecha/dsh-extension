@@ -298,7 +298,8 @@ export function registerMini(ctx, deps) {
     if (created.code !== 0) { logLine(`mini watch task failed: ${created.err || created.out}`); return }
     await run('schtasks.exe', ['/Run', '/TN', TASK])
   }
-  startWatch().catch(() => {})
+  // mini watchdog disabled: native minimise must stay a plain minimise
+  // (window mode/resize is handled by the optimizer bar and window-control only)
 
   function control(action) {
     return run(POWERSHELL, ['-NoProfile', '-NonInteractive', '-WindowStyle', 'Hidden', '-ExecutionPolicy', 'Bypass', '-File', CONTROL, '-Action', action])
