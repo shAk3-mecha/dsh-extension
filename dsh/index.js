@@ -140,14 +140,7 @@ while ($true) {
       [DshWin]::ShowWindow($handle, 9) | Out-Null
       Write-Log 'restored'
     }
-    $control = '${join(HOME, 'window-control.ps1').replace(/'/g, "''")}'
-    while (Get-Process -Id $proc.Id -ErrorAction SilentlyContinue) {
-      if ([DshWin]::IsIconic($handle)) {
-        & $control -Action enter
-        Start-Sleep -Seconds 1
-      }
-      Start-Sleep -Milliseconds 400
-    }
+    Wait-Process -Id $proc.Id -ErrorAction SilentlyContinue
     Write-Log 'app exited'
   }
   Start-Sleep -Seconds 2
@@ -294,6 +287,14 @@ const INJECT_SCRIPT = `(function () {
       'html[data-dsh-mini] [data-slot="sidebar"],html[data-dsh-mini] [data-sidebar-right-panel],html[data-dsh-mini] [data-conversation-header]{display:none!important}',
       'html[data-dsh-mini] [data-conversation-region] :where(p,li,div,span,pre,code,strong,em,td,th,a,button){font-size:10px!important;line-height:1.3!important}',
       'html[data-dsh-mini] [data-conversation-region] :where(h1,h2,h3,h4,h5){font-size:12px!important;line-height:1.25!important}',
+      'html[data-dsh-mini] [data-conversation-region] :where(p,li,div,span,pre,code,strong,em,td,th,a,button,blockquote){color:#2b241a!important}',
+      'html[data-dsh-mini] [data-conversation-region] :where(pre,code){background:#fff4cc!important;border:1px solid rgba(255,122,26,.28)!important;border-radius:4px}',
+      'html[data-dsh-mini] [data-conversation-region] pre :where(span){color:inherit!important}',
+      'html[data-dsh-mini] [data-composer-card] :where(div,span,textarea,p,input,button){color:#2b241a!important}',
+      'html[data-dsh-mini] [data-550c-panel-anchor]{display:none!important}',
+      'html[data-dsh-mini] [data-eva-chrome],html[data-dsh-mini] [data-eva-hud],html[data-dsh-mini] [data-eva-magi],html[data-dsh-mini] [data-eva-top],html[data-dsh-mini] [data-eva-clock],html[data-dsh-mini] [data-eva-wallpaper],html[data-dsh-mini] [data-eva-grid],html[data-dsh-mini] [data-eva-edges],html[data-dsh-mini] [data-eva-beam],html[data-dsh-mini] [data-eva-scan],html[data-dsh-mini] [data-eva-vig],html[data-dsh-mini] [data-eva-motion],html[data-dsh-mini] [data-eva-music],html[data-dsh-mini] [data-eva-nums]{display:none!important}',
+      'html[data-dsh-mini] div[class^="eva-"],html[data-dsh-mini] div[class*=" eva-"]{display:none!important}',
+      'html[data-dsh-mini] body::before,html[data-dsh-mini] body::after,html[data-dsh-mini] #root::before,html[data-dsh-mini] #root::after{display:none!important}',
       'html[data-dsh-mini] [data-composer-card] :where(div,span,textarea,p,button){font-size:10px!important;line-height:1.3!important}',
 
       '#dsh-mini-grid{position:fixed;inset:0;z-index:500;display:none;padding:1px;gap:1px;background:#fdf6da;grid-template-columns:1fr;grid-template-rows:28px 1fr 84px}',
@@ -557,8 +558,6 @@ const INJECT_SCRIPT = `(function () {
     mountBar();
     setInterval(function () {
       if (document.documentElement.hasAttribute('data-dsh-mini')) { refresh(); hideMenuBar(); }
-      if (window.innerWidth <= 760 && Date.now() > suppressUntil && !document.documentElement.hasAttribute('data-dsh-mini')) setMini(true);
-      if (window.innerWidth > 860 && document.documentElement.hasAttribute('data-dsh-mini')) setMini(false);
     }, 1200);
     window.addEventListener('resize', function () { setTimeout(layout, 60); });
   }
