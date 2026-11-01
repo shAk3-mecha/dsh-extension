@@ -1,5 +1,5 @@
 ﻿/**
- * dsh-optimizer — mini mode.
+ * dsh-extension — mini mode.
  *
  * A dedicated compact surface, not a scaled copy of the main UI: the real
  * conversation stays in place (so messages, approvals and the composer keep
@@ -121,9 +121,9 @@ while ($true) {
 const MINI_INJECT = `(function () {
   if (window.__dshOptimizerMini) return;
   window.__dshOptimizerMini = true;
-  var enterUrl = '/plugins/dsh-optimizer/mini/enter';
-  var exitUrl = '/plugins/dsh-optimizer/mini/exit';
-  var stateUrl = '/plugins/dsh-optimizer/mini/state';
+  var enterUrl = '/plugins/dsh-extension/mini/enter';
+  var exitUrl = '/plugins/dsh-extension/mini/exit';
+  var stateUrl = '/plugins/dsh-extension/mini/state';
 
   function style() {
     if (document.getElementById('dsh-mini-style')) return;
@@ -277,7 +277,7 @@ export function registerMini(ctx, deps) {
   const CONTROL = join(HOME, 'window-control.ps1')
   const WATCH = join(HOME, 'mini-watch.ps1')
   const WATCH_VBS = join(HOME, 'mini-watch.vbs')
-  const TASK = 'DSH-Optimizer-Mini'
+  const TASK = 'DSH-Extension-Mini'
 
   try {
     mkdirSync(HOME, { recursive: true })
@@ -307,7 +307,7 @@ export function registerMini(ctx, deps) {
 
   ctx.effect(() => ctx.webServer.register({
     kind: 'exact',
-    path: '/plugins/dsh-optimizer/mini/enter',
+    path: '/plugins/dsh-extension/mini/enter',
     handler: async (req, res) => {
       if (!ctx.connection.authorizeIndex(req, res)) return
       if (req.method !== 'POST') { res.writeHead(405); res.end(); return }
@@ -316,11 +316,11 @@ export function registerMini(ctx, deps) {
       res.writeHead(result.code === 0 ? 202 : 500, { 'content-type': 'application/json' })
       res.end(JSON.stringify({ ok: result.code === 0 }))
     },
-  }), 'dsh-optimizer: mini enter')
+  }), 'dsh-extension: mini enter')
 
   ctx.effect(() => ctx.webServer.register({
     kind: 'exact',
-    path: '/plugins/dsh-optimizer/mini/exit',
+    path: '/plugins/dsh-extension/mini/exit',
     handler: async (req, res) => {
       if (!ctx.connection.authorizeIndex(req, res)) return
       if (req.method !== 'POST') { res.writeHead(405); res.end(); return }
@@ -329,17 +329,17 @@ export function registerMini(ctx, deps) {
       res.writeHead(202, { 'content-type': 'application/json' })
       res.end(JSON.stringify({ ok: true }))
     },
-  }), 'dsh-optimizer: mini exit')
+  }), 'dsh-extension: mini exit')
 
   ctx.effect(() => ctx.webServer.register({
     kind: 'exact',
-    path: '/plugins/dsh-optimizer/mini/state',
+    path: '/plugins/dsh-extension/mini/state',
     handler: (req, res) => {
       if (!ctx.connection.authorizeIndex(req, res)) return
       res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' })
       res.end(JSON.stringify({ mini: false }))
     },
-  }), 'dsh-optimizer: mini state')
+  }), 'dsh-extension: mini state')
 }
 
 
